@@ -13,25 +13,32 @@ api = UserDto.api
 
 @api.route('/me')
 class CurrentUserRoute(Resource):
+    @api.doc('get_current_user')
+    @api.marshal_list_with(UserDto.IUser, envelope='data')
+    @jwt_required()
+    def get(self):
+        """Get Current User"""
+        identity = get_jwt_identity()
+        return UserServices().get_by_publicId(identity["publicId"])
+
+    @api.doc('update_current_user')
+    @api.marshal_list_with(UserDto.IUserUpdtae, envelope='data')
+    @jwt_required()
+    def patch(self):
+        """Update Current User"""
+        identity = get_jwt_identity()
+        return UserServices().update_user_by_publicId(publicId=identity["publicId"], data=request.json)
+
+
+@api.route('')
+class CurrentUserRoute(Resource):
     @api.doc('list_of_registered_users')
     @api.marshal_list_with(UserDto.IUser, envelope='data')
     @jwt_required()
     def get(self):
         """List all registered users"""
-        # return current_user
         identity = get_jwt_identity()
-        return UserServices().get_by_publicId(identity["publicId"])
-        # current_user = UserServices().get_by_publicId(identity["publicId"])
-        # print()
-        # print(current_user)
-        # print()
-        # if current_user is not None:
-        #     return UserServices().get_by_publicId(identity["publicId"])
-        # return {
-        #         'status': 'fail',
-        #         "message": "The token is invalid or expired",
-        #         "code": "token_not_valid"
-        #     }, status.HTTP_401_UNAUTHORIZED
+        return UserServices().get_all_users()
 
 
 # @api.route('/<publicId>')
@@ -40,6 +47,7 @@ class CurrentUserRoute(Resource):
 # class User(Resource):
 #     @api.doc('get a user')
 #     @api.marshal_with(UserDto.users)
+#     @jwt_required()
 #     def get(self, publicId):
 #         """get a user given its identifier"""
 #         user = get_a_user(publicId)

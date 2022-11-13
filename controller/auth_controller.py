@@ -49,7 +49,7 @@ class LoginRoute(Resource):
     @api.doc('user login')
     @api.expect(AuthDto.ILogin, validate=True)
     def post(self):
-        """user login """
+        """User login """
         try:
             data: dict = request.json
             return AuthServices().login(data.get('email'), data.get('password'))

@@ -12,7 +12,6 @@ def createsuperuser_cli(UserServices):
         email = input("Email : ")
         if email != "":
             if validators.validate_email(email):
-                
                 if not UserServices().get_by_email(email):
                     emailValid = True
                     firstName = input("First Name : ")

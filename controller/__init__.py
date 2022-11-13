@@ -7,9 +7,9 @@ from controller.user_controller import api as user_api
 blueprint = Blueprint('api', __name__, url_prefix='/api')
 
 api = Api(blueprint,
-        title='API REST Credit Cards',
+        title='REST API for Food Services',
         version='1.0',
-        description='a boilerplate for flask restplus web service'
+        # description='a boilerplate for flask restplus web service'
     )
 
 api.add_namespace(auth_api, path='/auth/user')

@@ -16,19 +16,19 @@ from utils.commandCLI import createsuperuser_cli, test_cli
 # models
 from models.user import User
 
-# routes
-from admin.login_admin import admin_protected
-from controller import blueprint as blueprint_api
 
 flask_app, admin = create_app(os.environ.get('BOILERPLATE_ENV', 'dev'))
 migrate = Migrate(flask_app, db)
 
 # Admin pannel register model
 admin.add_view(AdminModelView(User, db.session))
-# admin.add_menu_item
 admin.add_link(MenuLink(name='API Doc', category='', url="/api"))
 admin.add_link(MenuLink(name='Logout', category='', url="/admin/user/logout"))
 
+
+# import routes
+from admin.login_admin import admin_protected
+from controller import blueprint as blueprint_api
 # register api routes
 flask_app.register_blueprint(blueprint_api)
 flask_app.register_blueprint(admin_protected)

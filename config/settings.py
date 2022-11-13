@@ -11,10 +11,12 @@ load = load_dotenv(os.path.join(BASE_DIR, '.env'))
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY')
+    DEBUG = False
+
+    # Auth JWT
     JWT_SECRET_KEY = os.environ.get('JWT_SECRET_KEY')
     JWT_ACCESS_TOKEN_EXPIRES = timedelta(minutes=20)
     JWT_REFRESH_TOKEN_EXPIRES = timedelta(days=1)
-    DEBUG = False
     
     # mail settings
     MAIL_SERVER = os.environ.get('APP_MAIL_SERVER')

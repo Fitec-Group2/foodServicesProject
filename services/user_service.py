@@ -3,6 +3,7 @@ import datetime
 
 from app import db
 from models.user import User
+from utils import status
 
 
 class UserServices:
@@ -45,6 +46,23 @@ class UserServices:
 
     def get_all_users(self):
         return User.query.all()
+
+    def update_user_by_publicId(self, data: dict, publicId: str = None):
+        if publicId is None or publicId == "":
+            return {
+                "status": "Fail",
+                "message": "Missing publicId"
+            }, status.HTTP_400_BAD_REQUEST
+        
+        user = User.query.filter_by(publicId=publicId).first()
+        
+        firstName = data.get("firstName", None)
+        lastName = data.get("lastName", None)
+        if firstName or lastName:
+            user.firstName = firstName
+            user.lastName = lastName
+            return self.save(user)
+        return user
 
     def save(self, user):
         db.session.add(user)
