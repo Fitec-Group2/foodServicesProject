@@ -50,9 +50,6 @@ class UserServices:
         return User.query.all()
     
     def update_user_by_publicId(self, data: dict, publicId: str = None) -> tuple[Dict[str, str], Literal[400]] | User:
-        print()
-        print(data)
-        print()
         if publicId is None or publicId == "" or data is None:
             return {
                 "status": "Fail",
